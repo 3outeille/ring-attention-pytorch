@@ -388,7 +388,7 @@ class RingFlashAttentionFunction(Function):
 
 ring_flash_attn_ = RingFlashAttentionFunction.apply
 
-@beartype
+#@beartype
 def ring_flash_attn(
     q: Tensor,
     k: Tensor,

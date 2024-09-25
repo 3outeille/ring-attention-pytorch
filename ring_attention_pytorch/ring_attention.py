@@ -44,7 +44,7 @@ def divisible_by(num, den):
 def softclamp(t, value):
     return (t / value).tanh() * value
 
-@beartype
+#@beartype
 def default_attention(
     q: Tensor,
     k: Tensor,
@@ -100,7 +100,7 @@ def default_attention(
 # rotary embeddings with modifications to support striped attention
 
 class RingRotaryEmbedding(Module):
-    @beartype
+    #@beartype
     def __init__(
         self,
         dim,
@@ -125,8 +125,8 @@ class RingRotaryEmbedding(Module):
     def is_cuda(self):
         return self.inv_freq.is_cuda
 
-    @autocast(enabled = False)
-    @beartype
+    @torch.amp.autocast(device_type='cuda', enabled=False)
+    #@beartype
     def forward(
         self,
         seq_len: int
@@ -161,7 +161,7 @@ def rotate_half(x):
     x1, x2 = x.chunk(2, dim = -1)
     return torch.cat((-x2, x1), dim=-1)
 
-@autocast(enabled = False)
+@torch.amp.autocast(device_type='cuda', enabled=False)
 def apply_rotary_pos_emb(pos, t):
     pos = rearrange(pos, 'n d -> n 1 d')
     return t * pos.cos() + rotate_half(t) * pos.sin()
@@ -276,7 +276,7 @@ def sharded_seq_to_sharded_batch(
 # main class
 
 class RingAttention(Module):
-    @beartype
+    #@beartype
     def __init__(
         self,
         dim: int,
@@ -481,7 +481,7 @@ def FeedForward(dim, mult = 4):
     )
 
 class RingTransformer(Module):
-    @beartype
+    #@beartype
     def __init__(
         self,
         *,

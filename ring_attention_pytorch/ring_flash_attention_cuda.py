@@ -352,8 +352,7 @@ class RingFlashAttentionCUDAFunction(Function):
 
 ring_flash_attn_cuda_ = RingFlashAttentionCUDAFunction.apply
 
-@autocast(enabled = False)
-@beartype
+@torch.amp.autocast(device_type='cuda', enabled=False)
 def ring_flash_attn_cuda(
     q: Tensor,
     k: Tensor,
